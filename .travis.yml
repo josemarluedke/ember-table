@@ -19,6 +19,12 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
+branches:
+  only:
+    - master
+    # npm version tags
+    - /^v\d+\.\d+\.\d+/
+
 jobs:
   fail_fast: true
   allow_failures:
@@ -30,9 +36,8 @@ jobs:
     - stage: "Tests"
       name: "Tests"
       script:
-        - npm run lint:hbs
-        - npm run lint:js
-        - npm test
+        - yarn run lint
+        - yarn test
 
     # we recommend new addons test the current and previous LTS
     # as well as latest stable release (bonus points to beta/canary)
@@ -55,5 +60,4 @@ install:
   - yarn install --no-lockfile --non-interactive
 
 script:
-  - yarn run lint
   - node_modules/.bin/ember try:one $EMBER_TRY_SCENARIO
